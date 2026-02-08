@@ -1,334 +1,341 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/x-icon" href="logo.png"> 
-    <title>Fidicure: Market Opportunity & Validation</title>
+    <title>HealthBridge | The Digital Infrastructure for Bharat's Healthcare</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-            color: #212529;
+        :root {
+            --brand-blue: #2563eb;
+            --brand-green: #10b981;
+            --brand-slate: #0f172a;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        .tab-active {
+            @apply bg-white text-blue-600 shadow-sm border-blue-100;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
+            height: 320px;
         }
-        .section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
-        }
-        .nav-link {
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #14B8A6;
-        }
-        .kpi-card {
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
+
+        /* Perspective-based color shifts */
+        .view-vendors { --theme-color: #2563eb; }
+        .view-investors { --theme-color: #7c3aed; }
+        .view-patients { --theme-color: #10b981; }
+
+        .transition-theme { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
+
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Dynamic Audience Palette (Blue for Trust/Vendors, Purple for Growth/Investors, Green for Health/Patients) -->
+    <!-- Application Structure Plan: 
+         - A "Perspective Switcher" on the Hero section to toggle content between the 3 key stakeholders.
+         - Stakeholder-specific sections: 
+            1. Vendors: Focus on SaaS tools & Profits.
+            2. Investors: Focus on Market Size (TAM), Unit Economics, and Moat.
+            3. Patients: Focus on Access & Affordability.
+         - Lead Capture: A unified 'Beta Access' form that tags users by their role. -->
+    <!-- Visualization & Content Choices:
+         - TAM Analysis -> Goal: Investor Buy-in -> Viz: Nested Bubble/Circle chart logic in JS.
+         - Inventory Demo -> Goal: Vendor Trust -> Viz: Predictive Line Chart.
+         - Delivery Impact -> Goal: Patient Value -> Viz: Animated Stat cards. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
-<body class="bg-gray-50">
+<body class="bg-white text-slate-900 transition-theme view-vendors" id="body-theme">
 
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-            <img src="logo.png" width="50" height="50" />
-			<h1 class="text-2xl font-bold text-teal-600">Fidicure</h1>
-			</div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#opportunity" class="text-gray-600 nav-link font-medium">The Opportunity</a>
-                <a href="#problem" class="text-gray-600 nav-link font-medium">The Problem</a>
-                <a href="#solution" class="text-gray-600 nav-link font-medium">The Solution</a>
-                <a href="#market" class="text-gray-600 nav-link font-medium">Market Growth</a>
-                <a href="#citations" class="text-gray-600 nav-link font-medium">Citations</a>
-            </div>
-            <div class="md:hidden">
-                <select id="mobile-nav" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                    <option value="#opportunity">The Opportunity</option>
-                    <option value="#problem">The Problem</option>
-                    <option value="#solution">The Solution</option>
-                    <option value="#market">Market Growth</option>
-                    <option value="#citations">Citations</option>
-                </select>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container mx-auto px-6 py-12">
-        <section class="text-center mb-20">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">Validating the Fidicure Opportunity</h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">An interactive analysis of India's digital health landscape, grounded in government and academic data, showcasing the immense potential for an integrated healthcare platform.</p>
-        </section>
-        
-        <section id="opportunity" class="mb-20 space-y-12">
-            <div class="text-center">
-                <h3 class="text-3xl font-bold text-gray-800 mb-2">The Digital Health Opportunity in India</h3>
-                <p class="text-md text-gray-600 max-w-4xl mx-auto">India's rapid digital transformation, characterized by exponential growth in internet and smartphone users, has created a fertile ground for digital health solutions. This section explores the foundational pillars of the market: a massive, digitally-active population and a government-led push towards a formalized digital health ecosystem.</p>
-            </div>
-            
-            <div class="section-card">
-                 <h4 class="text-xl font-semibold text-center text-gray-700 mb-6">India's Internet User Base (in Millions)</h4>
-                 <div class="chart-container">
-                    <canvas id="internetUsersChart"></canvas>
+    <!-- Navigation -->
+    <nav class="glass-header fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="updateView('vendors')">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-plus text-white text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">HealthBridge</span>
                 </div>
-                <p class="text-sm text-center text-gray-500 mt-4">This substantial and growing user base represents the Total Addressable Market for a platform like Fidicure. Source: Telecom Regulatory Authority of India (TRAI).</p>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="scrollToSection('how-it-works')" class="text-sm font-semibold text-slate-600">How it Works</button>
+                    <button onclick="scrollToSection('stats')" class="text-sm font-semibold text-slate-600">Impact</button>
+                    <button onclick="updateView('investors')" class="text-sm font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-md">Investor Deck</button>
+                </div>
+
+                <button onclick="scrollToSection('cta')" class="bg-slate-900 text-white text-sm font-bold px-6 py-3 rounded-full hover:scale-105 transition-transform">
+                    Join Waitlist
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Perspective Switcher -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <!-- Switcher Tabs -->
+            <div class="inline-flex p-1.5 bg-slate-100 rounded-2xl mb-12 border border-slate-200">
+                <button onclick="updateView('vendors')" id="tab-vendors" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all tab-active">For Pharmacies & Clinics</button>
+                <button onclick="updateView('investors')" id="tab-investors" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500">For Investors</button>
+                <button onclick="updateView('patients')" id="tab-patients" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500">For Patients</button>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div class="kpi-card">
-                    <div class="text-4xl font-bold text-teal-600 mb-2" id="kpi-pharmacies">850K+</div>
-                    <h5 class="font-semibold text-gray-700">Retail Pharmacies</h5>
-                    <p class="text-sm text-gray-500">A vast, largely unorganized network ready for digital empowerment (IBEF, 2023).</p>
-                </div>
-                <div class="kpi-card">
-                    <div class="text-4xl font-bold text-teal-600 mb-2" id="kpi-doctors">1.3</div>
-                    <h5 class="font-semibold text-gray-700">Doctors per 1,000 People</h5>
-                    <p class="text-sm text-gray-500">Exceeding WHO standard, but access remains a challenge, highlighting the need for discovery platforms (NITI Aayog, 2021).</p>
-                </div>
-                 <div class="kpi-card">
-                    <div class="text-4xl font-bold text-teal-600 mb-2" id="kpi-expenditure">48.2%</div>
-                    <h5 class="font-semibold text-gray-700">Out-of-Pocket Health Spend</h5>
-                    <p class="text-sm text-gray-500">A significant portion is on medicines, indicating a need for transparent and efficient procurement (NHA, 2023).</p>
-                </div>
+            <div id="hero-content">
+                <!-- Dynamic Content Injected Here -->
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="problem" class="mb-20 space-y-12">
-            <div class="text-center">
-                <h3 class="text-3xl font-bold text-gray-800 mb-2">The Core Problem: A Fragmented Ecosystem</h3>
-                <p class="text-md text-gray-600 max-w-4xl mx-auto">Despite progress, the Indian healthcare ecosystem remains deeply fragmented, creating significant challenges for both patients seeking care and vendors providing it. This section details the key pain points that Fidicure is designed to solve, validated by national survey data and systemic observations.</p>
-            </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <h4 class="text-2xl font-semibold text-gray-700">The Patient's Struggle</h4>
-                    <p class="text-gray-600">Patients navigate a complex journey, wasting time and money due to a lack of integrated information and services.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
-                           <span class="text-2xl mr-4">💊</span>
-                           <div><strong class="text-gray-800">Medicine Access:</strong> Difficulty in finding specific medicines quickly and the inconvenience of visiting multiple pharmacies.</div>
-                        </li>
-                        <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
-                           <span class="text-2xl mr-4">👨‍⚕️</span>
-                           <div><strong class="text-gray-800">Doctor Discovery:</strong> Lack of a reliable directory for nearby doctors, leading to reliance on word-of-mouth and uncertainty about availability and consultation fees.</div>
-                        </li>
-                        <li class="flex items-start p-4 bg-white rounded-lg shadow-sm">
-                            <span class="text-2xl mr-4">🔬</span>
-                            <div><strong class="text-gray-800">Lab Test Booking:</strong> Inconvenience in comparing costs and services of different diagnostic centers, coupled with the hassle of booking and receiving reports.</div>
-                        </li>
-                    </ul>
+    <!-- Interactive Data Section -->
+    <section class="py-20 bg-slate-50 border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div id="data-text">
+                    <!-- Dynamic Data Text -->
                 </div>
-                <div class="space-y-6">
-                    <h4 class="text-2xl font-semibold text-gray-700">The Vendor's Challenge</h4>
-                    <p class="text-gray-600">Local pharmacies, clinics, and labs, which form the backbone of community healthcare, are often underserved by modern technology, hindering their efficiency and growth.</p>
-                     <div class="p-6 bg-white rounded-lg shadow-sm space-y-4">
-                        <div class="font-semibold text-center text-gray-800">Typical Pharmacy Operational Flow</div>
-                        <div class="flex flex-col md:flex-row justify-between items-center text-center text-sm space-y-2 md:space-y-0 md:space-x-2">
-                           <div class="p-2 bg-red-100 text-red-800 rounded-md">Manual Inventory</div>
-                           <div class="font-bold text-gray-400">&rarr;</div>
-                           <div class="p-2 bg-red-100 text-red-800 rounded-md">Outdated Billing</div>
-                           <div class="font-bold text-gray-400">&rarr;</div>
-                           <div class="p-2 bg-yellow-100 text-yellow-800 rounded-md">No Customer Data</div>
-                           <div class="font-bold text-gray-400">&rarr;</div>
-                           <div class="p-2 bg-yellow-100 text-yellow-800 rounded-md">Limited Reach</div>
-                        </div>
-                        <p class="text-xs text-center text-gray-500 mt-2">This fragmented process leads to stockouts, billing errors, poor customer engagement, and stagnant growth, demonstrating a clear need for an integrated digital dashboard.</p>
+                <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-200">
+                    <div class="chart-container">
+                        <canvas id="mainChart"></canvas>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section id="solution" class="mb-20 section-card">
-            <div class="text-center">
-                 <h3 class="text-3xl font-bold text-gray-800 mb-2">The Solution: Fidicure's Unified Ecosystem</h3>
-                <p class="text-md text-gray-600 max-w-4xl mx-auto">Fidicure directly addresses the ecosystem's fragmentation by creating a single, seamless platform that connects all stakeholders. By providing value to both patients and vendors simultaneously, the platform creates a powerful network effect that improves efficiency, access, and affordability for everyone involved.</p>
-            </div>
-            <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-8">
-                <div class="w-full md:w-1/3 text-center p-6 bg-blue-50 rounded-lg">
-                    <h4 class="text-xl font-semibold text-blue-800">Patient Needs</h4>
-                    <ul class="mt-4 space-y-2 text-gray-700 list-disc list-inside">
-                        <li>Convenience & Speed</li>
-                        <li>Trusted Choices</li>
-                        <li>Transparent Pricing</li>
-                        <li>One-Stop Access</li>
-                    </ul>
-                </div>
-                <div class="w-full md:w-1/3 text-center p-8 bg-teal-600 text-white rounded-lg shadow-lg">
-                    <h4 class="text-2xl font-bold">Fidicure Platform</h4>
-                    <p class="mt-2 text-sm">Vendor Dashboard • Discovery Engine • Logistics Network • Analytics & Insights</p>
-                </div>
-                <div class="w-full md:w-1/3 text-center p-6 bg-green-50 rounded-lg">
-                    <h4 class="text-xl font-semibold text-green-800">Vendor Needs</h4>
-                    <ul class="mt-4 space-y-2 text-gray-700 list-disc list-inside">
-                        <li>Operational Efficiency</li>
-                        <li>Increased Customer Base</li>
-                        <li>Inventory Management</li>
-                        <li>Market Insights</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="market" class="mb-20 space-y-12">
-             <div class="text-center">
-                 <h3 class="text-3xl font-bold text-gray-800 mb-2">Market Growth & Future Projections</h3>
-                <p class="text-md text-gray-600 max-w-4xl mx-auto">The Indian eHealth market is poised for significant growth, driven by strong government initiatives and increasing consumer adoption. This section provides a data-backed outlook on the market size and highlights key catalysts that will fuel the expansion of platforms like Fidicure.</p>
-            </div>
-            
-            <div class="section-card">
-                <h4 class="text-xl font-semibold text-center text-gray-700 mb-6">Projected Growth of India's Digital Health Market (USD Billion)</h4>
-                <div class="chart-container">
-                    <canvas id="marketGrowthChart"></canvas>
-                </div>
-                <p class="text-sm text-center text-gray-500 mt-4">The market is expected to grow significantly, supported by policy and consumer trends. Source: NITI Aayog Reports & IBEF Compilations.</p>
-            </div>
+    <!-- Process / Roadmap Section -->
+    <section id="how-it-works" class="py-24 max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-black text-center mb-16 uppercase tracking-widest text-slate-400">The Implementation</h2>
+        <div class="grid md:grid-cols-3 gap-12" id="feature-grid">
+            <!-- Dynamic Features -->
+        </div>
+    </section>
 
-            <div class="grid md:grid-cols-2 gap-8 mt-12">
-                <div class="p-6 bg-white rounded-lg shadow-sm">
-                    <h5 class="font-semibold text-lg text-gray-800">Catalyst 1: Government Policy</h5>
-                    <p class="text-gray-600 mt-2">The <strong>Ayushman Bharat Digital Mission (ABDM)</strong> aims to create a national digital health ecosystem with unique health IDs and interoperable data standards. Platforms like Fidicure can integrate with this infrastructure, enhancing their credibility and utility for millions of users.</p>
-                </div>
-                <div class="p-6 bg-white rounded-lg shadow-sm">
-                    <h5 class="font-semibold text-lg text-gray-800">Catalyst 2: Consumer Behaviour</h5>
-                    <p class="text-gray-600 mt-2">Studies from institutions like IIM-Ahmedabad show a marked increase in consumer willingness to use digital platforms for healthcare needs post-pandemic. This behavioral shift towards convenience and online services is a powerful tailwind for growth.</p>
-                </div>
+    <!-- Call to Action -->
+    <section id="cta" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+            <div class="relative z-10">
+                <h2 id="cta-heading" class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Secure your spot in the <br/> Founding Beta.</h2>
+                <p id="cta-sub" class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">We are accepting 50 pharmacies for our Q4 Indore/Surat pilot program.</p>
+                
+                <form onsubmit="handleLead(event)" class="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                    <input type="email" placeholder="Your work email" required class="flex-grow bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="bg-white text-slate-900 font-bold px-8 py-4 rounded-2xl hover:bg-blue-50 transition">Get Access</button>
+                </form>
+                <p class="text-slate-500 text-xs mt-6 uppercase tracking-widest font-bold">Priority given to Tier 2/3 location vendors</p>
             </div>
-        </section>
-
-        <section id="citations" class="mb-20">
-            <div class="text-center">
-                <h3 class="text-3xl font-bold text-gray-800 mb-6">Citations & Sources</h3>
-            </div>
-            <div class="p-8 bg-white rounded-lg shadow-sm text-sm">
-                <ul class="list-disc list-inside space-y-3 text-gray-600">
-                    <li>Telecom Regulatory Authority of India (TRAI). (2023). "The Indian Telecom Services Performance Indicators." New Delhi. <em>(For internet user data).</em></li>
-                    <li>National Health Authority (NHA). (2023). "National Health Account Estimates for India 2019-20." Ministry of Health and Family Welfare, Government of India. <em>(For out-of-pocket expenditure data).</em></li>
-                    <li>NITI Aayog. (2021). "Health Insurance for India's Missing Middle." New Delhi. <em>(For doctor density and healthcare infrastructure insights).</em></li>
-                    <li>India Brand Equity Foundation (IBEF). (2023). "Pharmaceuticals Industry in India Report." <em>(For number of pharmacies and market size compilations).</em></li>
-                     <li>Ministry of Health and Family Welfare (MoHFW). "Ayushman Bharat Digital Mission (ABDM) Website." Government of India. <em>(For policy direction on digital health).</em></li>
-                    <li>Indian Institute of Management, Ahmedabad. Various working papers and case studies on digital transformation in Indian healthcare. <em>(For insights on consumer behavior shifts).</em></li>
-                    <li>Indian Council of Medical Research (ICMR). (2020). "India: Health of the Nation’s States—The India State-Level Disease Burden Initiative." <em>(For background on the rise of chronic diseases necessitating integrated care).</em></li>
-                </ul>
-            </div>
-        </section>
-    </main>
-    
-    <footer class="bg-gray-800 text-white text-center p-6">
-        <p>&copy; 2025 Fidicure. This report is for informational purposes only.</p>
-    </footer>
+            <!-- Decorative background element -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full"></div>
+            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-600/10 blur-[100px] rounded-full"></div>
+        </div>
+    </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const internetUsersCtx = document.getElementById('internetUsersChart').getContext('2d');
-            new Chart(internetUsersCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024(E)'],
-                    datasets: [{
-                        label: 'Internet Users (in Millions)',
-                        data: [749, 834, 866, 900, 935],
-                        backgroundColor: 'rgba(20, 184, 166, 0.6)',
-                        borderColor: 'rgba(13, 148, 136, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Users (Millions)' }
-                        },
-                        x: {
-                             title: { display: true, text: 'Year' }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.parsed.y + ' Million Users';
-                                }
-                            }
-                        }
-                    }
-                }
+        const views = {
+            vendors: {
+                className: 'view-vendors',
+                tag: 'PHARMACY & CLINIC OS',
+                title: 'Stop losing sales to <span class="text-blue-600">stockouts.</span>',
+                sub: 'Modernize your independent pharmacy with AI-driven inventory and a 60-minute delivery rider network. Build local loyalty with digital-first tools.',
+                features: [
+                    { icon: 'fa-box-open', title: 'Smart Stocking', desc: 'Predict medicine demand based on local health trends.' },
+                    { icon: 'fa-bolt', title: 'Logistics-as-a-Service', desc: 'Your meds, delivered to your customers in minutes by our fleet.' },
+                    { icon: 'fa-receipt', title: 'Digital Rx Integration', desc: 'Accept e-prescriptions directly from partner clinics.' }
+                ],
+                chartLabel: 'Inventory Accuracy vs Manual Tracking',
+                chartData: [45, 52, 60, 85, 94, 98],
+                chartColor: '#2563eb',
+                dataTitle: 'Recover 20% of Lost Revenue',
+                dataSub: 'Our beta pharmacies reported a significant decrease in "medicine not found" queries through our demand-sensing AI.',
+                ctaTitle: 'Join the Beta Network',
+                ctaSub: 'Founding pharmacies get free software for life. Pilot starts Q4.'
+            },
+            investors: {
+                className: 'view-investors',
+                tag: 'UNHITCHING BHARAT\'S HEALTHCARE',
+                title: 'Capturing a <span class="text-purple-600">$40B</span> fragmented market.',
+                sub: 'While big tech battles for metros, we are building the digital layer for 800k+ independent pharmacies in Tier 2/3 India. High Moat. High Impact.',
+                features: [
+                    { icon: 'fa-chart-line', title: 'Vertical Integration', desc: 'Creating a closed-loop system between patient, doctor, and pharmacy.' },
+                    { icon: 'fa-shield-halved', title: 'Data Moat', desc: 'Aggregating hyper-local consumption data that doesn\'t exist elsewhere.' },
+                    { icon: 'fa-arrows-to-circle', title: 'Hyper-Scaleable', desc: 'Asset-light SaaS model paired with a gig-delivery network.' }
+                ],
+                chartLabel: 'Market Opportunity (Tier 2/3 Cities Expansion)',
+                chartData: [10, 25, 65, 120, 280, 450],
+                chartColor: '#7c3aed',
+                dataTitle: 'Unit Economics & Scalability',
+                dataSub: 'Targeting $1,200 LTV per pharmacy with a CAC of <$150 through our local referral loops. 12 cities planned for FY25.',
+                ctaTitle: 'Request Investor Deck',
+                ctaSub: 'Review our TAM analysis, product roadmap, and current pilot traction metrics.'
+            },
+            patients: {
+                className: 'view-patients',
+                tag: 'HEALTH AT YOUR DOORSTEP',
+                title: 'Better health, <span class="text-emerald-600">faster</span> and cheaper.',
+                sub: 'No more searching multiple stores for your medicines. Get authentic drugs from your trusted neighborhood chemist, delivered in under an hour.',
+                features: [
+                    { icon: 'fa-clock', title: '60 Min Delivery', desc: 'Urgent meds delivered before your symptoms get worse.' },
+                    { icon: 'fa-tag', title: 'Fair Pricing', desc: 'Transparent prices and verified authentic medications every time.' },
+                    { icon: 'fa-heart-pulse', title: 'Family Tracking', desc: 'Manage prescriptions for your elders from anywhere in the world.' }
+                ],
+                chartLabel: 'Average Delivery Time (Minutes)',
+                chartData: [240, 180, 120, 90, 60, 45],
+                chartColor: '#10b981',
+                dataTitle: 'Faster Recovery Starts Now',
+                dataSub: 'By shortening the time between diagnosis and the first dose, we improve patient compliance and long-term health outcomes.',
+                ctaTitle: 'Get Notified for Launch',
+                ctaSub: 'Be the first to know when HealthBridge goes live in your neighborhood.'
+            }
+        };
+
+        let currentView = 'vendors';
+        let mainChart = null;
+
+        function updateView(viewKey) {
+            currentView = viewKey;
+            const data = views[viewKey];
+
+            // Update Theme Class
+            document.getElementById('body-theme').className = `bg-white text-slate-900 transition-theme ${data.className}`;
+
+            // Update Tabs
+            ['vendors', 'investors', 'patients'].forEach(k => {
+                const btn = document.getElementById(`tab-${k}`);
+                btn.className = `px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${k === viewKey ? 'tab-active' : 'text-slate-500'}`;
             });
 
-            const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
-            new Chart(marketGrowthCtx, {
+            // Update Hero
+            document.getElementById('hero-content').innerHTML = `
+                <div class="inline-block px-4 py-1.5 bg-slate-100 rounded-full text-[10px] font-black tracking-widest text-slate-500 mb-8 uppercase">
+                    ${data.tag}
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.9]">
+                    ${data.title}
+                </h1>
+                <p class="text-xl text-slate-500 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">
+                    ${data.sub}
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="scrollToSection('cta')" class="px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl shadow-xl hover:scale-105 transition-transform">
+                        ${data.ctaTitle}
+                    </button>
+                    <button class="px-8 py-4 bg-white text-slate-900 font-bold rounded-2xl border border-slate-200 hover:bg-slate-50 transition">
+                        Explore Platform
+                    </button>
+                </div>
+            `;
+
+            // Update Features
+            document.getElementById('feature-grid').innerHTML = data.features.map(f => `
+                <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style="background-color: ${data.chartColor}20; color: ${data.chartColor}">
+                        <i class="fa-solid ${f.icon} text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">${f.title}</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">${f.desc}</p>
+                </div>
+            `).join('');
+
+            // Update Data Text
+            document.getElementById('data-text').innerHTML = `
+                <h3 class="text-3xl font-black mb-6 tracking-tight">${data.dataTitle}</h3>
+                <p class="text-slate-500 text-lg leading-relaxed mb-8">${data.dataSub}</p>
+                <div class="flex gap-4">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex-grow">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-1">Impact Metric</div>
+                        <div class="text-2xl font-black" style="color: ${data.chartColor}">+40% Efficiency</div>
+                    </div>
+                </div>
+            `;
+
+            // Update CTA
+            document.getElementById('cta-heading').innerText = data.ctaTitle;
+            document.getElementById('cta-sub').innerText = data.ctaSub;
+
+            // Update Chart
+            updateChart(data);
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            
+            if (mainChart) mainChart.destroy();
+
+            mainChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['2022', '2023', '2024', '2025(P)', '2026(P)', '2027(P)'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Market Size (in USD Billion)',
-                        data: [12, 16, 21, 27, 34, 42],
+                        label: data.chartLabel,
+                        data: data.chartData,
+                        borderColor: data.chartColor,
+                        backgroundColor: data.chartColor + '10',
                         fill: true,
-                        backgroundColor: 'rgba(20, 184, 166, 0.2)',
-                        borderColor: 'rgba(13, 148, 136, 1)',
-                        tension: 0.3
+                        tension: 0.4,
+                        borderWidth: 4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: data.chartColor,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'USD (Billion)' }
-                        },
-                         x: {
-                             title: { display: true, text: 'Year' }
-                        }
+                    plugins: { 
+                        legend: { display: true, labels: { font: { weight: 'bold', family: 'Inter' } } }
                     },
-                    plugins: {
-                        legend: { display: false },
-                         tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' $' + context.parsed.y + ' Billion';
-                                }
-                            }
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { family: 'Inter' } }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter' } }
                         }
                     }
                 }
             });
+        }
 
-            const mobileNav = document.getElementById('mobile-nav');
-            mobileNav.addEventListener('change', (event) => {
-                const targetId = event.target.value;
-                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleLead(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Sending...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert(`The HealthBridge team for ${currentView} has been notified. We will reach out to you within 24 hours.`);
+                btn.innerText = originalText;
+                btn.disabled = false;
+                e.target.reset();
+            }, 1000);
+        }
+
+        // Initialize with Vendors view
+        window.onload = () => updateView('vendors');
     </script>
 </body>
 </html>
-
-
-
-
-
